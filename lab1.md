@@ -1,4 +1,4 @@
-# Lab 1 Report
+# Lab 1 Report - Lian Welch
 
 ## Task 1
 1. docker run hello-world
@@ -190,7 +190,7 @@ I experienced a Cloud Shell and Artifact Registry credential issue that presente
  - Connection refused
 
  Example:
- 
+
  lianrothe@cloudshell:~/test (lianproject-9)$ docker push us-east4-docker.pkg.dev/lianproject-9/my-repository/node-app:0.2 
  The push refers to repository [us-east4-docker.pkg.dev/lianproject-9/my-repository/node-app] 853dfe95769f: Waiting 063e0b1dd7bd: Waiting c1be109a62df: Waiting 64538a062a61: Waiting fd1872fa12cc: Waiting 4925cf9d8be8: Waiting c3379383a616: Waiting a517996ccaca: Waiting 92fdea8688f6: Waiting d79dbc803ccd: Waiting af6154ef075c: Waiting failed to do request: Head "https://us-east4-docker.pkg.dev/v2/lianproject-9/my-repository/node-app/blobs/sha256:c3379383a6169381b187f981bf4e6864f345dcede0439538cb724d73cb0b543c": dial tcp 173.194.217.82:443: connect: connection refused lianrothe@cloudshell:~/test (lianproject-9)$
 
