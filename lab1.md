@@ -215,7 +215,8 @@ I experienced a Cloud Shell and Artifact Registry credential issue that presente
 ![creditProof](images/credit.png)
 
 ## Video
-I have watched the Cloud Computing Video by Google.
-- 
--
-- 
+I have watched the Cloud Computing Video by Google. 
+
+- I did not realize about the Google infrastructure has a "global meshed fiber optic network" and is actively expanding. 
+- The fact Google has released things open source allows for development across multiple platforms. 
+- In terms of machine learning Google has built up a set of definitions in the system and then trained the system to do a particular task, such as a vision API.
