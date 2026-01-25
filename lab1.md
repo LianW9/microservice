@@ -210,3 +210,12 @@ I experienced a Cloud Shell and Artifact Registry credential issue that presente
  ![issueSolutions](images/new5.png)
  ![issueSolutions](images/new6.png)
  ![issueSolutions](images/new7.png)
+
+## Credit Check
+![creditProof](images/credit.png)
+
+## Video
+I have watched the Cloud Computing Video by Google.
+- 
+-
+- 
