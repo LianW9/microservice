@@ -1,4 +1,4 @@
-# Lab 2 Report - Lian Welch
+# Lab 2 Report - Lian Welch -- to do - spell/ grammar check and reflection questions
 
 ## Task 1
 - The Google Cloud Platform GUI was used to enable the Kubernetes Engine for my GCP account.
@@ -109,7 +109,7 @@
 - This command repeats the request to demonstrate that the client communicates using the Service name rather than the pod IP, a stable network is supplied by the Service, and request path remains the same. 
 - ![6.2](images/994.png)
 
-## Reflection to do
+## Reflection
 1. Before Kubernetes, how might an application composed of multiple containers be managed using only Docker?
 What challenges would arise as the number of containers increases?
 
@@ -127,9 +127,9 @@ one large system on a single machine, or
 multiple containerized services managed by Kubernetes?
 Explain your reasoning using concepts such as scalability, resilience, and service communication.
 
-## Diagram to do
-- just notes; reflect the actual Kubernetes components used in this lab (pods, services, DNS, client pod, etc.), illustrate how traffic flows from a client pod to a backend service, how Kubernetes service discovery functions
-- =
+## Diagram
+- ![Diagram](images/chart.png)
+- The diagram above depicts the workflow of lab 2, both with internal netwroking and service discovery. As seen above, a client pod initiates a HTTP request by using server-service as the Service name, not the pod IP address. The Service name is resolved to a stable ClusterIP by Kubernetes DNS. After that, the request is sent to the ClusterIP where Kubernetes Service forwards the traffic to a backend serrver pod using nginx. The server pod then proccesses the request and returns the repsonse to the client pod via the Service. All of this to demonstrate how Kubernetes allows for clients to form individual pod IPs, reliable service discovery, stable networking, and pod to pod communication within the cluster. 
 
 ## Clean up confirmation
 ![Clean up](images/995.png)
