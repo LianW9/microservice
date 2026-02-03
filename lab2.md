@@ -102,16 +102,35 @@
 
 ## Task 6
 1. kubectl exec client -- curl server-service
-- This command
+- This command sends an HTTP request using the Service name from the client pod, confirming that the DNS resloved the Service name, traffic was sent to the Service ClusterIP, and Kubernetes forwarded the request to the server pod. 
 - ![6.1](images/993.png)
+
 2. kubectl exec client -- curl server-service
-- This command
+- This command repeats the request to demonstrate that the client communicates using the Service name rather than the pod IP, a stable network is supplied by the Service, and request path remains the same. 
 - ![6.2](images/994.png)
 
-## Reflection answers
+## Reflection to do
+1. Before Kubernetes, how might an application composed of multiple containers be managed using only Docker?
+What challenges would arise as the number of containers increases?
 
-## Diagram
+2. In your own words, explain what a Pod is and why Kubernetes treats it as the smallest deployable unit.
+Why does Kubernetes not manage containers directly?
+
+3. Why are Services necessary in Kubernetes?
+Explain how Services solve the problem of changing pod IP addresses and why this capability is essential for microservices architectures.
+
+4. Based on this lab, explain how DNS-based service discovery works in Kubernetes.
+Why is service discovery considered a core requirement for Microservices Architecture (MSA)?
+
+5. After completing this lab, do you believe it is more effective to run applications as:
+one large system on a single machine, or
+multiple containerized services managed by Kubernetes?
+Explain your reasoning using concepts such as scalability, resilience, and service communication.
+
+## Diagram to do
 - just notes; reflect the actual Kubernetes components used in this lab (pods, services, DNS, client pod, etc.), illustrate how traffic flows from a client pod to a backend service, how Kubernetes service discovery functions
+- =
 
 ## Clean up confirmation
 ![Clean up](images/995.png)
+![Clean up](images/clean.png)
