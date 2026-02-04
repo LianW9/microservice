@@ -1,4 +1,4 @@
-# Lab 2 Report - Lian Welch -- to do - spell/ grammar check and reflection questions and diagram photo
+# Lab 2 Report - Lian Welch -- to do - spell/ grammar check
 
 ## Task 1
 - The Google Cloud Platform GUI was used to enable the Kubernetes Engine for my GCP account.
@@ -11,7 +11,7 @@
 - This command checks to see the current zone, where in my case one was not yet configured, see screenshot 2.3 below to see the set then get for the proper display.
 
 3. gcloud config set compute/zone us-east1-b
-- This command sets the compute zone to us-east1-b, which will be used for the rest fo the lab assignment to determine where the virtual machines will be created
+- This command sets the compute zone to us-east1-b, which will be used for the rest of the lab assignment to determine where the virtual machines will be created
 - ![2.3](images/200.png)
 
 4. gcloud container clusters create gke-cluster \
@@ -19,16 +19,16 @@
   --machine-type=e2-medium \
   --disk-type=pd-balanced \
   --disk-size=30
-- This command creates the Kubernetes cluseter, names it gke-cluster, allocates three nodes, deploys the cluster to the preset compute zone, and enables Google-managed Kubernetes control plane services.
+- This command creates the Kubernetes cluster, names it gke-cluster, allocates three nodes, deploys the cluster to the preset compute zone, and enables Google-managed Kubernetes control plane services.
 - ![2.4](images/300.png)
 
 5. gcloud container clusters list
-- This command displays all of the Kubernetes clusters associated with my GCP project, which shows the name, location, number of worker nodes, and the status. This was run to confirm that the GKE cluster was ctrayed and is available.
+- This command displays all of the Kubernetes clusters associated with my GCP project, which shows the name, location, number of worker nodes, and the status. This was run to confirm that the GKE cluster is available.
 - ![2.5](images/400.png)
 
 6. gcloud container clusters get-credentials gke-cluster \
   --zone us-east1-b
-- This command displays authentication and connection informatio by giving the cluster endpoints, downloading the authentication credentials, updates the local kubeconfig file, and allows for secure communication between kebectl and the cluster
+- This command displays authentication and connection information by giving the cluster endpoints, downloading the authentication credentials, updates the local file, and allows for secure communication between kebectl and the cluster
 - ![2.6](images/500.png)
 
 7. kubectl get nodes
@@ -37,11 +37,11 @@
 
 ## Task 3
 0. gcloud auth login
-- This processs allows for access to the GKE cluster.
+- This process allows for access to the GKE cluster.
 - ![3.0](images/700.png)
 
 1. kubectl run nginx --image=nginx
-- This command creates a pod named nginx, and displays the confirmation.
+- This command creates a pod named nginx and displays the confirmation.
 - ![3.1](images/800.png)
 
 2. kubectl run server --image=nginx
@@ -85,7 +85,7 @@
 - ![4.2](images/980.png)
 
 3. kubectl describe service server-service
-- This command displays infromation about the Service, such as stable ClusterIP, server pod, and automatically tracking pod's health.
+- This command displays information about the Service, such as stable ClusterIP, server pod, and automatically tracking pod's health.
 - ![4.3](images/990.png)
 
 ## Task 5
@@ -97,12 +97,12 @@
 - ![5.1](images/991.png)
 
 2. kubectl exec dns-client -- nslookup server-service
-- This command displays the Server DNS name and ClusterIP addresss (assigned to the Service) for the service created earlier called server-service.
+- This command displays the Server DNS name and ClusterIP address (assigned to the Service) for the service created earlier called server-service.
 - ![5.2](images/992.png)
 
 ## Task 6
 1. kubectl exec client -- curl server-service
-- This command sends an HTTP request using the Service name from the client pod, confirming that the DNS resloved the Service name, traffic was sent to the Service ClusterIP, and Kubernetes forwarded the request to the server pod. 
+- This command sends an HTTP request using the Service name from the client pod, confirming that the DNS resolved the Service name, traffic was sent to the Service ClusterIP, and Kubernetes forwarded the request to the server pod. 
 - ![6.1](images/993.png)
 
 2. kubectl exec client -- curl server-service
@@ -110,26 +110,19 @@
 - ![6.2](images/994.png)
 
 ## Reflection
-1. Before Kubernetes, how might an application composed of multiple containers be managed using only Docker?
-What challenges would arise as the number of containers increases?
+1. Before Kubernetes, an application composed of multiple containers may be managed using only a Docker. This is done manually by docker run, the networking would rely on hardcoded container IPs or Docker bridge networks and container names. The container lifecycle would be managed by scripts manually and scaling would require manually starting containers. Many challenges would arise as the number of containers increased. There is no scheduling across machines, no automatic restart or self healing if containers fail, no native service discovery, and operational complexity increases.
 
-2. In your own words, explain what a Pod is and why Kubernetes treats it as the smallest deployable unit.
-Why does Kubernetes not manage containers directly?
+2. A Pod is an instance that groups one or more containers. Containers that are within the same Pod share an IP address, network namespace, are scheduled together, and on the same node. Kubernetes treat a Pod like the smallest deployable unit because this simplifies the networking and management when it schedules, restarts, and scales Pods. Kubernetes does not manage containers directly because they do not have a stable network identity meaning that Pods offer a dynamic option when considering scalability where each nginx container ran inside its own Pod.
 
-3. Why are Services necessary in Kubernetes?
-Explain how Services solve the problem of changing pod IP addresses and why this capability is essential for microservices architectures.
+3. Services are necessary in Kubernetes because Pods are ephemeral, meaning that Pods can be deleted, restarted, and their IP addresses change. Services solve the problem of changing pod IP addresses by providing a stable virtual IP (ClusterIP) and a stable DNS name, and automatically direct to a healthy backend, all without the client needing to know the Pod's IP address. This capability capability is essential for microservice architectures because they scale independently, instances are created and destroyed dynamically.
 
-4. Based on this lab, explain how DNS-based service discovery works in Kubernetes.
-Why is service discovery considered a core requirement for Microservices Architecture (MSA)?
+4. When a Service is created the Kubernetes registers it with CoreDNS and a DNS record is automatically created. Which can be seen when nslookup server-service returned the Server name and ClusterIP and when curl server-service reached the backend. Service discovery is considered a core requirement for MSA because Services find each other dynamically allowing for scaling which means potential for rolling updates. 
 
-5. After completing this lab, do you believe it is more effective to run applications as:
-one large system on a single machine, or
-multiple containerized services managed by Kubernetes?
-Explain your reasoning using concepts such as scalability, resilience, and service communication.
+5. It is more effective to run applications as multiple containerized services managed by Kubernetes. Using Kubernetes allows for independent scaling of services, automatic restart, and loose coupling via Services and DNS.
 
 ## Diagram
 - ![Diagram](images/chart.png)
-- The diagram above depicts the workflow of lab 2, both with internal netwroking and service discovery. As seen above, a client pod initiates a HTTP request by using server-service as the Service name, not the pod IP address. The Service name is resolved to a stable ClusterIP by Kubernetes DNS. After that, the request is sent to the ClusterIP where Kubernetes Service forwards the traffic to a backend serrver pod using nginx. The server pod then proccesses the request and returns the repsonse to the client pod via the Service. All of this to demonstrate how Kubernetes allows for clients to form individual pod IPs, reliable service discovery, stable networking, and pod to pod communication within the cluster. 
+- The diagram above depicts the workflow of lab 2, both with internal networking and service discovery. As seen above, a client pod initiates a HTTP request by using server-service as the Service name, not the pod IP address. The Service name is resolved to a stable ClusterIP by Kubernetes DNS. After that, the request is sent to the ClusterIP where Kubernetes Service forwards the traffic to a backend server pod using nginx. The server pod then processes the request and returns the response to the client pod via the Service. All of this to demonstrate how Kubernetes allows for clients to form individual pod IPs, reliable service discovery, stable networking, and pod to pod communication within the cluster. 
 
 ## Clean up confirmation
 ![Clean up](images/995.png)
