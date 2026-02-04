@@ -1,4 +1,4 @@
-# Lab 2 Report - Lian Welch -- to do - spell/ grammar check
+# Lab 2 Report - Lian Welch
 
 ## Task 1
 - The Google Cloud Platform GUI was used to enable the Kubernetes Engine for my GCP account.
