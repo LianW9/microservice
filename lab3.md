@@ -209,17 +209,17 @@ gcloud artifacts repositories list --location=us-east4
 - Resolve the service name from the DNS client pod
 - ![6.20](images/r1.png)
 
-21. kubectl exec -it dns-client -- nslookup products- --- hmm service.default.svc.cluster.local
+21. kubectl exec -it dns-client -- nslookup products- service.default.svc.cluster.local
 - Resolve the full in-cluster FQDN by confirming that kubedns is automatically publishing a DNS entry for the products-service Service.
-- ![6.21](images/s1.png)
+- ![6.21](images/q1.png)
 
 22. kubectl exec -it http-client -- curl -s http://products-service/api/products
-- Displays the complete list of products. --- hmm
-- ![6.22](images/t1.png)
+- Displays the complete list of products.
+- ![6.22](images/s1.png)
 
 23. kubectl exec -it http-client -- curl -s http://products-service/api/products/0PUK6V6EV0
 - This retrieves the vintge record player using its product ID
-- ![6.23](images/u1.png) --- hmm
+- ![6.23](images/t1.png)
 
 ## Task 7
 1. cd ~/gke-microservices-manifests
