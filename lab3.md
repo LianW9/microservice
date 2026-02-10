@@ -195,7 +195,7 @@ gcloud artifacts repositories list --location=us-east4
 
 17. kubectl get pod dns-client
 - Verify that it is running
-- ![6.17](images/q1.png) --- hmm
+- ![6.17](images/q1.png)
 
 18. kubectl run http-client --image=curlimages/curl:8.5.0 --restart=Never -- sleep infinity
 - Create the HTTP client pod
@@ -207,11 +207,11 @@ gcloud artifacts repositories list --location=us-east4
 
 20. kubectl exec -it dns-client -- nslookup products-service
 - Resolve the service name from the DNS client pod
-- ![6.20](images/r1.png)
+- ![6.20](images/q1.png)
 
 21. kubectl exec -it dns-client -- nslookup products- service.default.svc.cluster.local
 - Resolve the full in-cluster FQDN by confirming that kubedns is automatically publishing a DNS entry for the products-service Service.
-- ![6.21](images/q1.png)
+- ![6.21](images/r1.png)
 
 22. kubectl exec -it http-client -- curl -s http://products-service/api/products
 - Displays the complete list of products.
