@@ -277,32 +277,14 @@ kubectl get endpointslice -l kubernetes.io/service-name=orders-service \
 - The orders Pods, Service, and EndpointSlice relate to each other when the Pod Ips match the addresses in the EndpointSlice block and the Service ClusterIP remains constant.
 - ![7.12](images/f2.png)
 
-## Reflection - to do
-1 Explain the relationship between Deployment, ReplicaSet, and Pods.
+## Reflection
+1. Deployment defines the wanted state in term of image, replicas, and lables and is control of the updates and rollbacks. A ReplicaSet is created by the Deployment and ensure that the correct number of Pods are running. While a Pod is the smallest unit of runtime and is ephemeral because of how easily replacable they are. This lab assignment showed that deleting a Pod caused a new one to be created automatically with a different name and IP address. 
 
-Specifically:
+2. Clients use the Service name instead of Pod IPs because the Service name provides the opportunity for a stable ClusterIP and DNS name, while Pod IPs change when recreated. Clients would break if they used Pod IPs directly without the Service name. The Service uses selector to find matching Pods such as app=orders and app=products. Without Services there would be no reliable way of discovery causing for manual tracking of Pod Ips without load balanging.
 
-What does the Deployment control?
-What role does the ReplicaSet play?
-Why are Pods considered ephemeral, and how did you observe this in the lab when you deleted a Pod?
+3. An EndpointSlice tracks the real Pod IPs behind a Service, the connection goes from the Pods to the EndpointSlice to the Service. This lab showed that the Pod IPs matched the EndpointSlice addresses while the Service ClusterIP stayed the same. This is important because this factor allows for scaling better than older Endpoints while keeping routing accurate as the Pods change. 
 
-2. How does a Kubernetes Service (ClusterIP) enable stable access to a microservice?
-
-In your answer, describe:
-
-Why clients use the Service name (e.g., products-service or orders-service) instead of Pod IPs
-How labels and selectors connect the Service to the correct Pods
-What would break if Services did not exist and clients had to use Pod IPs directly
-
-3. What is an EndpointSlice and why is it important?
-
-Explain in your own words:
-
-What information the EndpointSlice contains
-How it relates to the Service and the Pods
-What you observed when comparing Pod IPs, Service ClusterIP, and EndpointSlice addresses in Step 7.5
-
-## Diagram - to do
+## Diagram
 ![diagram](images/lab3D.png)
 
 ## Clean-up
