@@ -195,15 +195,15 @@ gcloud artifacts repositories list --location=us-east4
 
 17. kubectl get pod dns-client
 - Verify that it is running
-- ![6.17](images/o1.png)
+- ![6.17](images/q1.png)
 
 18. kubectl run http-client --image=curlimages/curl:8.5.0 --restart=Never -- sleep infinity
 - Create the HTTP client pod
-- ![6.18](images/p1.png)
+- ![6.18](images/o1.png)
 
 19. kubectl get pod http-client
 - Verify that it is running.
-- ![6.19](images/q1.png)
+- ![6.19](images/p1.png)
 
 20. kubectl exec -it dns-client -- nslookup products-service
 - Resolve the service name from the DNS client pod
