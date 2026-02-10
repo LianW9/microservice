@@ -303,7 +303,7 @@ How it relates to the Service and the Pods
 What you observed when comparing Pod IPs, Service ClusterIP, and EndpointSlice addresses in Step 7.5
 
 ## Diagram - to do
-- see lab assign for specifics
+![diagram](images/lab3D.png)
 
 ## Clean-up
 ![cleanup](images/g2.png)
