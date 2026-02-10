@@ -195,7 +195,7 @@ gcloud artifacts repositories list --location=us-east4
 
 17. kubectl get pod dns-client
 - Verify that it is running
-- ![6.17](images/q1.png)
+- ![6.17](images/q1.png) --- hmm
 
 18. kubectl run http-client --image=curlimages/curl:8.5.0 --restart=Never -- sleep infinity
 - Create the HTTP client pod
@@ -209,64 +209,64 @@ gcloud artifacts repositories list --location=us-east4
 - Resolve the service name from the DNS client pod
 - ![6.20](images/r1.png)
 
-21. kubectl exec -it dns-client -- nslookup products-service.default.svc.cluster.local
+21. kubectl exec -it dns-client -- nslookup products- --- hmm service.default.svc.cluster.local
 - Resolve the full in-cluster FQDN by confirming that kubedns is automatically publishing a DNS entry for the products-service Service.
 - ![6.21](images/s1.png)
 
 22. kubectl exec -it http-client -- curl -s http://products-service/api/products
-- Displays the complete list of products.
+- Displays the complete list of products. --- hmm
 - ![6.22](images/t1.png)
 
 23. kubectl exec -it http-client -- curl -s http://products-service/api/products/0PUK6V6EV0
 - This retrieves the vintge record player using its product ID
-- ![6.23](images/u1.png)
+- ![6.23](images/u1.png) --- hmm
 
 ## Task 7
 1. cd ~/gke-microservices-manifests
 - Start in the manifests directory
-- ![7.1](images/v1.png)
+- ![7.1](images/u1.png)
 
 2. cat > orders.yaml - with file information
 - Create orders.yaml
-- ![7.2](images/w1.png)
+- ![7.2](images/v1.png)
 
 3. cat orders.yaml
 - Verify that the orders.yaml manifest is correct for the orders microservice with port 80 and targetPort 8081.
-- ![7.3](images/x1.png)
+- ![7.3](images/w1.png)
 
 4. cd ~/gke-microservices-manifests
 - Navigate to gke-microservices-manifests
-- ![7.4](images/y1.png)
+- ![7.4](images/x1.png)
 
 5. kubectl apply -f orders.yaml
 - Deploy Deployment and Service in a single file.
-- ![7.5](images/z1.png)
+- ![7.5](images/y1.png)
 
 6. kubectl get deployment orders
 - Check that the Deployment is created and ready
-- ![7.6](images/a2.png)
+- ![7.6](images/z1.png)
 
 7. kubectl get pods -l app=orders \
   -o custom-columns=NAME:.metadata.name,STATUS:.status.phase,IP:.status.podIP,NODE:.spec.nodeNameame
 - Check that three orders Pods are running
-- ![7.7](images/b2.png)
+- ![7.7](images/a2.png)
 
 8. kubectl get svc orders-service
 - Check that the orders service exists and has a ClusterIP Service named orders-service.
-- ![7.8](images/c2.png)
+- ![7.8](images/b2.png)
 
 9. kubectl exec -it dns-client -- nslookup orders-service
 - Verify in-cluster DNS for orders-service from the in-cluster DNS test Pod.
 - Name:   orders-service.default.svc.cluster.local
-- ![7.9](images/d2.png)
+- ![7.9](images/c2.png)
 
 10. kubectl exec -it http-client -- curl -s http://orders-service/api/orders | head
 - Verify the HTTP access to the orders microservice by retrieving the list of orders.
-- ![7.10](images/e2.png)
+- ![7.10](images/d2.png)
 
 11. kubectl exec -it http-client -- curl -s http://orders-service/api/orders/ORD-000001-MICROSERVICE
 - Retrieves a single order showing that the Deployment was successfull, the Service correctly selected the Pods, The CoreDNS resolved the Service name from inside the cluster, the Service name can be used instead of Pod IPs, and the port mapping in Service is correct.
-- ![7.11](images/f2.png)
+- ![7.11](images/e2.png)
 
 12. kubectl get pods -l app=orders \
   -o custom-columns=NAME:.metadata.name,IP:.status.podIP && \
@@ -275,7 +275,7 @@ kubectl get svc orders-service \
 kubectl get endpointslice -l kubernetes.io/service-name=orders-service \
   -o custom-columns=NAME:.metadata.name,ENDPOINTS:.endpoints[*].addresses
 - The orders Pods, Service, and EndpointSlice relate to each other when the Pod Ips match the addresses in the EndpointSlice block and the Service ClusterIP remains constant.
-- ![7.12](images/g2.png)
+- ![7.12](images/f2.png)
 
 ## Reflection - to do
 1 Explain the relationship between Deployment, ReplicaSet, and Pods.
@@ -306,4 +306,4 @@ What you observed when comparing Pod IPs, Service ClusterIP, and EndpointSlice a
 - see lab assign for specifics
 
 ## Clean-up
-![cleanup](images/h2.png)
+![cleanup](images/g2.png)
