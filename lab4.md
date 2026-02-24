@@ -163,27 +163,43 @@
 - ![6.5](images/T65.png)
 - These commands ran a blue-green deployment which runs two environments in parallel, blue (existing) that is the current running production environment and green (separate) that is the new candidate environment. Once all the checks showed that the baseline was up correctly, the exisiting Deployment is converted to blue. Once three Pods had track = blue, it was made explicit by updating the Service selector, which is shown by the 404 display. The green deployment was then created that can run the new image (orders:v2), have a different label (track=green), and be fully provisioned (same replica count) before switching traffic. It was shown that both environments exist when three Pods showed track = blue for v1 and three Pods showed track = green for v2. The displayed 404 message was done to show that green was not recieving traffic before it was switched, and was then after switched 200 was returned. Finally, green was rolled back simualting a the debugging process by switchng the Service selector back to Blue. The way that these two environments are set up allows for traffic to be switched by modifying the Service selector. This allows for blue to be the current product version and green to be the new candidate version without interfearing with deployment. This is possible because Kubernetes Service routes traffic only to Pods whose labels match its selector so switching does not restart Pods or modify Deployments. Once the green version is carefully validated the blue line can be removed, freeing up the additional capacity that was being used.
 ---
-
-what is happening conceptually
-what Kubernetes is doing
-why the step matters
-
 ## Diagrams
-Each student must submit four diagrams, one for each deployment strategy:
-Rolling Update
-Canary Deployment
-Blue-Green Deployment
-Dark Launch / Parallel Run
+---
+![1](images/lab41.png)
+![2](images/lab42.png)
+![3](images/lab43.png)
+![4](images/lab44.png)
 
-Each diagram must show:
-Deployments
-ReplicaSets
-Pods
-Service
-Client Pod
-Traffic flow
-
+---
 ## Reflection
-when each deployment strategy is appropriate
-what risks it addresses
-how it supports independent microservice deployment
+---
+
+### Question 1 — Dark Launch (Conceptual)
+
+A dark launch is when a new version is deployed and running isndie Kubernetes without the Service selector sending user traffic to it. It differes from canary because it sends zero user traffic while canary sends small real traffic to the new version. A dark launch differes from blue-green deployment because it delays exposure while blue-green switches traffic compeletly. The advantages of this strategy includes no customer risk when testing, possibility to detect performance issues early, and Pods can run fully ready. The risks of this type of deployment includes extra Pods running (more infrastructure cost), monitoring two systems (operational complexity), and engineers must maintain unusued deployments. A team of engineers would choose a dark launch before exposing a release to customers when they have large architecture rewrites, performance-critical releases, or database validation. 
+
+---
+
+### Question 2 — Rolling Updates
+
+Rolling deployment usually eliminates downtime, although it can still occure under certain conditions. These conditions could be readiness probes fail, new Pods crash, or resource shortages. In order for rolling updates to work safely between the old and new versions, they need backwards compatibility. This could be same API endpoints, shared database schema compatibility, or requests working on both versions at the same time. Rolling updates would be preferred in a system that has statless web services, REST APIs, or frequent small updates. This strategy would be preferred because of it is automatic, has a minimal cost increase, and Kubernetes handles ReplicaSets.
+
+---
+
+### Question 3 — Canary Releases
+
+Limiting traffic reduces risk during deployment because only a small oercentages of requests reaches the new version, such as having three stable Pods with one canary Pod. This means that if something were to fail it would affect less users. In order for canary releases to be effective they need monitoring such as logs, error rates, latency metrics, and memory usage because the team must be able to compare behavior between the two versions, as seen with 200 and 404. In systems where behavior is difficult to measure quickly the disadvantages of canary deployment can be seen when bugs appear only with heavy load or when a unique problem is hard to identify. This can result in a decrease in performance or user experience issues. 
+
+---
+
+### Question 4 — Blue-Green Deployment
+
+Blue-green deployment runs two full environments and switches traffic instantly. They allow for instant rollback because Kubernetes Service selector determines the traffic and Pods never restart, as seen with the immediate switch between 404 and 200. This strategy may increase infrastructure cost because both environments run simultaneously, as seenw ith the three blue Pods and three green Pods causing a temporary double in computing resources. A hard cutover us safer than gradual deployment when there are incompatibile APIs, big architecural changes, or version conflicts. Blue-green is often used for database schema changes or major upgrades because old versions expects old schema and sometimes the migration can be incompatibaile, by using this strategy the green is able to be prepared completely so the schema can not only migrate safely but also switch instantly, while rollback protects from data corruption. 
+
+---
+
+### Question 5 — A/B Testing vs Deployment Strategies
+
+A/B testing is an experiemnt that compares user behavior between different versions, such as UI layout or recommendation alogrithm with the goal of mesuring engagment, not infrastructure. This type of testing is not used to deploy bug fixes or infrastructure upgrades, rather is used to measure user preference. A/B testing is appropriate when there is a need to test product features, UX experiments, or marketing. It is often messured in clicks, purchases, or engagement time. This testing is more about the business aspect than the system integredity. 
+
+---
