@@ -70,3 +70,4 @@ The .proto file is stored in the repository while the generated _pb2.py files ar
 A change belongs in the public API if it affects how the external clients interact. A change belongs in the internal enging if it is about math or computation logic. A change belongs in the service contract if the data exchnaged between services needs to be changed. This decision process helps teams extend systems without breaking existing functionality by keeping changes isolated.
 
 ## Diagram
+![Diagram](images/lab5D.png)
